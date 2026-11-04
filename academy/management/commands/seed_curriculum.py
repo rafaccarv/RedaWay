@@ -265,7 +265,7 @@ class Command(BaseCommand):
             RepertoireEntry.objects.filter(title=title).update(use_example=example)
 
         sample_theme, _ = Theme.objects.update_or_create(
-            slug="perspectivas-acerca-do-envelhecimento-na-sociedade-brasileira",
+            slug="envelhecimento-sociedade-brasileira",
             defaults={"title": "Perspectivas acerca do envelhecimento na sociedade brasileira", "category": "Direitos e cidadania", "year": 2025, "origin": Theme.Origin.OFFICIAL, "context": "Tema oficial do Enem 2025, utilizado nas redações comentadas da Cartilha do Participante 2026.", "is_published": True},
         )
         nota_mil_source, _ = Source.objects.update_or_create(
@@ -311,11 +311,21 @@ class Command(BaseCommand):
             ("Participação de jovens em decisões comunitárias", "Cidadania e juventude", "Tema de treino autoral para praticar a construção de argumentos sobre participação social. Não é proposta oficial nem previsão do ENEM.", "Que condições facilitam ou dificultam a participação de jovens em decisões que afetam sua comunidade? Como criar espaços de escuta e diálogo?", "Analise acesso à informação, canais de participação e retorno às propostas. Diferencie uma opinião pessoal de uma afirmação que precisa de evidências.", [constitution_education]),
         ]
         for title, category, context, questions, argument_paths, sources in theme_items:
-            theme, _ = Theme.objects.update_or_create(slug=slugify(title), defaults={
-                "title": title, "category": category, "difficulty": Theme.Difficulty.INTRODUCTORY, "origin": Theme.Origin.REDAWAY,
-                "context": context, "central_problem": "Transforme o assunto em uma questão delimitada e defensável.",
-                "reflection_questions": questions, "argument_paths": argument_paths, "is_published": True,
-            })
+            theme_slug = slugify(title)[:50].rstrip("-")
+            theme, _ = Theme.objects.update_or_create(
+                slug=theme_slug,
+                defaults={
+                    "title": title,
+                    "category": category,
+                    "difficulty": Theme.Difficulty.INTRODUCTORY,
+                    "origin": Theme.Origin.REDAWAY,
+                    "context": context,
+                    "central_problem": "Transforme o assunto em uma questão delimitada e defensável.",
+                    "reflection_questions": questions,
+                    "argument_paths": argument_paths,
+                    "is_published": True,
+                },
+            )
             theme.sources.set(sources)
 
         theme_repertoire_map = {
@@ -325,7 +335,7 @@ class Command(BaseCommand):
             "Participação de jovens em decisões comunitárias": ["Proteção integral de crianças e adolescentes", "Educação como direito social", "Direitos culturais", "O Karaíba e os saberes dos povos originários"],
         }
         racial_access_theme, _ = Theme.objects.update_or_create(
-            slug="obstaculos-a-igualdade-racial-na-educacao-e-no-trabalho",
+            slug="igualdade-racial-educacao-trabalho",
             defaults={
                 "title": "Obstáculos à igualdade racial na educação e no trabalho",
                 "category": "Direitos e cidadania",
