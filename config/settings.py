@@ -10,7 +10,14 @@ if not DEBUG and SECRET_KEY == "dev-only-change-me-before-deploy":
     raise ImproperlyConfigured("Defina REDAWAY_SECRET_KEY antes de executar em produção.")
 if not DEBUG and len(SECRET_KEY) < 50:
     raise ImproperlyConfigured("REDAWAY_SECRET_KEY precisa ter ao menos 50 caracteres em produção.")
-ALLOWED_HOSTS = [host.strip() for host in os.environ.get("REDAWAY_ALLOWED_HOSTS", 'redaway.top', 'www.redaway.top', '.onrender.com', 'localhost', '127.0.0.1').split(",") if host.strip()]
+ # Substitua a linha atual de ALLOWED_HOSTS por esta:
+ALLOWED_HOSTS = [
+    host.strip() for host in os.environ.get(
+        "REDAWAY_ALLOWED_HOSTS", 
+        "redaway.top,www.redaway.top,.onrender.com,localhost,127.0.0.1"
+    ).split(",") if host.strip()
+]
+
 if os.environ.get("RENDER_EXTERNAL_HOSTNAME"):
     ALLOWED_HOSTS.append(os.environ["RENDER_EXTERNAL_HOSTNAME"])
 REDAWAY_REGISTRATION_ENABLED = os.environ.get("REDAWAY_REGISTRATION_ENABLED", "1" if DEBUG else "0") == "1"
