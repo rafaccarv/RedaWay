@@ -48,7 +48,12 @@ jobs:
           DJANGO_SUPERUSER_USERNAME: ${{ secrets.REDAWAY_ADMIN_USERNAME }}
           DJANGO_SUPERUSER_EMAIL: ${{ secrets.REDAWAY_ADMIN_EMAIL }}
           DJANGO_SUPERUSER_PASSWORD: ${{ secrets.REDAWAY_ADMIN_PASSWORD }}
-        run: python manage.py createsuperuser --noinput
+          DJANGO_SUPERUSER_FIRST_NAME: ${{ secrets.REDAWAY_ADMIN_FIRST_NAME }}
+        run: |
+          python manage.py createsuperuser --noinput || {
+            echo "Falha ao criar o administrador."
+            exit 1
+          }
 
 
       - name: Seed initial content
