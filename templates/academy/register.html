@@ -1,0 +1,6 @@
+{% extends 'academy/form_page.html' %}
+{% block title %}Criar conta — RedaWay Academy{% endblock %}
+{% block auth_heading %}Um passo de cada vez. Uma redação de cada vez.{% endblock %}
+{% block auth_intro %}Crie sua conta gratuita e comece a construir uma base sólida para escrever com mais clareza e confiança.{% endblock %}
+{% block form_heading %}Crie sua conta{% endblock %}{% block form_subheading %}Gratuita. No seu ritmo.{% endblock %}
+{% block form_content %}<form method="post" enctype="multipart/form-data" class="form-stack">{% csrf_token %}{% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<div class="field-help">{{ field.help_text|safe }}</div>{% endif %}{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>{% endfor %}{% if form.non_field_errors %}<p class="field-error">{{ form.non_field_errors }}</p>{% endif %}<button class="button button-full" type="submit">Criar conta <span aria-hidden="true">→</span></button><p class="form-footnote">Consulte o <a href="{% url 'privacy' %}">aviso de privacidade</a> deste ambiente em desenvolvimento.</p></form><p class="auth-switch">Já tem uma conta? <a href="{% url 'login' %}">Entrar</a></p>{% endblock %}

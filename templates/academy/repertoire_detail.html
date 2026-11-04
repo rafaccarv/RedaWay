@@ -1,0 +1,27 @@
+{% extends 'academy/base.html' %}
+{% block title %}{{ entry.title }} — Biblioteca de repertórios{% endblock %}
+{% block content %}
+<article class="repertoire-detail wrap">
+  <nav class="breadcrumb" aria-label="Caminho da página"><a href="{% url 'repertoires' %}">Biblioteca de repertórios</a><span aria-hidden="true">›</span><span>{{ entry.title }}</span></nav>
+  <header class="repertoire-detail-heading">
+    <p class="eyebrow">{{ entry.get_category_display|upper }}</p>
+    <h1>{{ entry.title }}</h1>
+    {% if entry.origin_author %}<p class="repertoire-detail-author">{{ entry.origin_author }}</p>{% endif %}
+    {% if entry.central_concept %}<p class="repertoire-concept"><span>IDEIA-CHAVE</span>{{ entry.central_concept }}</p>{% endif %}
+  </header>
+  <div class="repertoire-detail-grid">
+    <div class="repertoire-main-copy">
+      {% if entry.context %}<section class="repertoire-info-block"><p class="eyebrow">CONTEXTO</p><h2>De onde vem essa referência</h2><div>{{ entry.context|linebreaks }}</div></section>{% endif %}
+      {% if entry.explanation %}<section class="repertoire-info-block"><p class="eyebrow">IDEIA CENTRAL</p><h2>O que ajuda a compreender</h2><div>{{ entry.explanation|linebreaks }}</div></section>{% endif %}
+      {% if entry.applications %}<section class="repertoire-info-block"><p class="eyebrow">APLICAÇÃO</p><h2>Em quais discussões pode ajudar</h2><div>{{ entry.applications|linebreaks }}</div></section>{% endif %}
+      {% if entry.use_example %}<section class="repertoire-example"><p class="eyebrow">EXEMPLO AUTORAL</p><h2>Como relacionar ao tema</h2><p>{{ entry.use_example }}</p></section>{% endif %}
+    </div>
+    <aside class="repertoire-detail-aside">
+      <section class="repertoire-study-card"><p class="eyebrow">PARA USAR COM PERTINÊNCIA</p><h2>Faça estas perguntas</h2><ul><li>Que aspecto específico do tema essa referência ajuda a explicar?</li><li>Qual é a conexão entre a ideia e o problema discutido?</li><li>Que dado ou evidência pode apoiar essa relação?</li></ul><p>Apresente a referência e explique sua função no argumento. Evite deixá-la como uma citação solta.</p></section>
+      {% if related_themes %}<section class="repertoire-related"><p class="eyebrow">TEMAS RELACIONADOS</p>{% for theme in related_themes %}<a href="{% url 'themes' %}?q={{ theme.title|urlencode }}">{{ theme.title }} <span aria-hidden="true">↗</span></a>{% endfor %}</section>{% endif %}
+    </aside>
+  </div>
+  <section class="repertoire-sources"><p class="eyebrow">FONTES PARA CONSULTA</p><h2>Leia e confira</h2><div class="source-list">{% for source in entry.sources.all %}{% if source.url %}<a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.institution }} — {{ source.title }}{% if source.edition %}, {{ source.edition }}{% endif %}{% if source.page %}, {{ source.page }}{% endif %} ↗</a>{% else %}<span>{{ source.institution }} — {{ source.title }}{% if source.edition %}, {{ source.edition }}{% endif %}</span>{% endif %}{% empty %}<span>Fontes ainda não cadastradas.</span>{% endfor %}</div></section>
+  <a class="text-link repertoire-back" href="{% url 'repertoires' %}">← Voltar à biblioteca</a>
+</article>
+{% endblock %}

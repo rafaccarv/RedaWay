@@ -1,0 +1,5 @@
+{% extends 'academy/form_page.html' %}
+{% block title %}Entrar — RedaWay Academy{% endblock %}
+{% block auth_heading %}Bom ter você de volta.{% endblock %}{% block auth_intro %}Sua jornada continua de onde você parou.{% endblock %}
+{% block form_heading %}Entre na sua conta{% endblock %}{% block form_subheading %}Continue sua jornada de aprendizagem.{% endblock %}
+{% block form_content %}<form method="post" class="form-stack">{% csrf_token %}{% if form.non_field_errors %}<p class="field-error">E-mail ou senha incorretos. Confira os dados e tente novamente.</p>{% endif %}{% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>{% endfor %}<div class="form-row"><span></span><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></div><button class="button button-full" type="submit">Entrar <span aria-hidden="true">→</span></button></form><p class="auth-switch">Ainda não tem conta? <a href="{% url 'register' %}">Criar conta grátis</a></p>{% endblock %}

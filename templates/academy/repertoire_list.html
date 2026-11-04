@@ -1,0 +1,29 @@
+{% extends 'academy/base.html' %}
+{% block title %}Biblioteca de repertórios — RedaWay Academy{% endblock %}
+{% block content %}
+<section class="content-page wrap repertoire-library">
+  <p class="eyebrow">CONHECIMENTO COM CONTEXTO</p>
+  <h1>Biblioteca de <em>repertórios.</em></h1>
+  <p class="content-lede">Explore autores, obras, conceitos, leis e dados. Abra uma referência para conhecer o contexto, as aplicações e as fontes antes de usá-la.</p>
+  <form method="get" class="filter-bar repertoire-filter">
+    <label class="search-field"><span class="sr-only">Buscar repertórios</span><input type="search" name="q" value="{{ query }}" placeholder="Buscar autor, conceito ou tema"></label>
+    <label><span class="sr-only">Categoria</span><select name="category"><option value="">Todas as categorias</option>{% for value,label in categories %}<option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    <button class="button" type="submit">Buscar</button>
+  </form>
+  <p class="library-result-count">{{ result_count }} referência{{ result_count|pluralize:"s" }} na seleção</p>
+  <div class="library-grid repertoire-grid">
+    {% for entry in entries %}
+      <article class="library-card repertoire-card">
+        <div class="tag-row"><span class="tag">{{ entry.get_category_display }}</span></div>
+        <h2><a href="{% url 'repertoire_detail' entry.slug %}">{{ entry.title }}</a></h2>
+        {% if entry.origin_author %}<p class="repertoire-author">{{ entry.origin_author }}</p>{% endif %}
+        {% if entry.central_concept %}<p><strong>Conceito:</strong> {{ entry.central_concept }}</p>{% endif %}
+        <p>{{ entry.explanation|default:entry.context|truncatewords:30 }}</p>
+        <a class="text-link" href="{% url 'repertoire_detail' entry.slug %}">Explorar referência <span aria-hidden="true">→</span></a>
+      </article>
+    {% empty %}
+      <div class="coming-soon"><span class="coming-icon">✳</span><div><strong>Nenhuma referência encontrada.</strong><p>Tente outros termos ou remova o filtro de categoria.</p></div></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,2 @@
+{% extends 'academy/base.html' %}
+{% block content %}<section class="auth-shell wrap"><div class="auth-aside"><p class="eyebrow">REDAWAY ACADEMY</p><h1>{% block auth_heading %}{% endblock %}</h1><p>{% block auth_intro %}{% endblock %}</p></div><div class="auth-panel"><div class="auth-panel-head"><span class="auth-mark">r</span><div><strong>{% block form_heading %}{% endblock %}</strong><span>{% block form_subheading %}{% endblock %}</span></div></div>{% block form_content %}{% endblock %}</div></section>{% endblock %}

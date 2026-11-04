@@ -1,0 +1,19 @@
+{% extends 'academy/form_page.html' %}
+{% block title %}Meu perfil — RedaWay Academy{% endblock %}
+{% block auth_heading %}Seu espaço, do seu jeito.{% endblock %}
+{% block auth_intro %}Sua conta e seu percurso de estudo são individuais. Não existem perfis públicos nem interação entre estudantes.{% endblock %}
+{% block form_heading %}Meu perfil{% endblock %}
+{% block form_subheading %}Dados da sua conta RedaWay.{% endblock %}
+{% block form_content %}
+<div class="profile-photo-preview">
+  {% if request.user.photo %}<img src="{% url 'profile_photo' %}" alt="Sua foto de perfil">
+  {% else %}<span aria-hidden="true">{{ request.user.first_name|first|upper }}</span>{% endif %}
+  <div><strong>Foto de perfil</strong><small>Visível somente para você na sua conta.</small></div>
+</div>
+<form method="post" enctype="multipart/form-data" class="form-stack">{% csrf_token %}
+  {% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<div class="field-help">{{ field.help_text }}</div>{% endif %}{% for error in field.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>{% endfor %}
+  {% if form.non_field_errors %}<p class="field-error">{{ form.non_field_errors }}</p>{% endif %}
+  <button class="button button-full" type="submit">Salvar alterações →</button>
+</form>
+<p class="auth-switch"><a href="{% url 'password_change' %}">Alterar minha senha</a> · <a class="danger-link" href="{% url 'delete_account' %}">Excluir minha conta</a></p>
+{% endblock %}

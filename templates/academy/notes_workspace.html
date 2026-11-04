@@ -1,0 +1,78 @@
+{% extends 'academy/base.html' %}
+{% load static %}
+{% block title %}{% if active_note %}{{ active_note.title }}{% elif is_new %}Nova nota{% else %}Notas{% endif %} — RedaWay{% endblock %}
+{% block content %}
+<section class="notes-environment" aria-label="Ambiente pessoal de notas">
+  <aside class="notes-sidebar">
+    <div class="notes-sidebar-top">
+      <div><p class="eyebrow">MEU ESPAÇO</p><h1>Notas</h1></div>
+      <a class="notes-create-button" href="{% url 'note_new' %}" aria-label="Criar nota" title="Criar nota">＋</a>
+    </div>
+    <form class="notes-search" method="get" action="{% url 'notes_home' %}">
+      <label class="sr-only" for="notes-search-input">Buscar notas</label>
+      <span aria-hidden="true">⌕</span><input id="notes-search-input" type="search" name="q" value="{{ query }}" placeholder="Buscar">
+    </form>
+    <p class="notes-list-label">{{ notes|length }} nota{{ notes|length|pluralize:"s" }}</p>
+    <nav class="notes-list" aria-label="Suas notas">
+      {% for note in notes %}
+        <a class="notes-list-item{% if active_note and active_note.pk == note.pk %} is-active{% endif %}" href="{% url 'note_edit' note.pk %}">
+          <strong>{{ note.title }}</strong>
+          <small>{% if note.topic %}{{ note.topic }} · {% endif %}{{ note.updated_at|date:"d/m/Y H:i" }}</small>
+          {% if note.body %}<span>{{ note.body|striptags|truncatechars:72 }}</span>{% else %}<span class="notes-empty-preview">Sem texto</span>{% endif %}
+        </a>
+      {% empty %}
+        <div class="notes-sidebar-empty">{% if query %}Nenhuma nota encontrada.{% else %}Suas notas pessoais aparecerão aqui.{% endif %}</div>
+      {% endfor %}
+    </nav>
+    <div class="notes-private-label"><span aria-hidden="true">◉</span> Privado · visível só nesta conta</div>
+  </aside>
+
+  <div class="notes-editor-area">
+    {% if form %}
+      <form class="notes-editor-form" method="post" action="{% if is_new %}{% url 'note_new' %}{% else %}{% url 'note_edit' active_note.pk %}{% endif %}" data-notes-form data-autosave="{% if active_note %}true{% else %}false{% endif %}">
+        {% csrf_token %}
+        <div class="notes-editor-topbar">
+          <span class="notes-save-state" data-save-state>{% if active_note %}Salvo às {{ active_note.updated_at|date:"H:i" }}{% else %}Nova nota · ainda não salva{% endif %}</span>
+          <div class="notes-editor-actions">
+            {% if active_note %}<button class="notes-delete-button" type="submit" formaction="{% url 'note_delete' active_note.pk %}" formmethod="post" data-confirm-delete>Excluir</button>{% endif %}
+            <button class="button notes-save-button" type="submit" data-save-button>{% if is_new %}Salvar nota{% else %}Salvar agora{% endif %}</button>
+          </div>
+        </div>
+        <div class="notes-meta-fields">
+          <div class="notes-title-field"><label class="sr-only" for="{{ form.title.id_for_label }}">Título da nota</label>{{ form.title }}{% for error in form.title.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>
+          <div class="notes-topic-field"><span aria-hidden="true">⌑</span><label class="sr-only" for="{{ form.topic.id_for_label }}">Tema da nota</label>{{ form.topic }}{% for error in form.topic.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>
+        </div>
+        <div class="notes-format-toolbar" role="toolbar" aria-label="Formatação do texto">
+          <button type="button" data-format="bold" aria-label="Negrito" title="Negrito"><strong>B</strong></button>
+          <button type="button" data-format="italic" aria-label="Itálico" title="Itálico"><em>I</em></button>
+          <button type="button" data-format="underline" aria-label="Sublinhado" title="Sublinhado"><u>U</u></button>
+          <span class="notes-toolbar-divider" aria-hidden="true"></span>
+          <button type="button" data-highlight aria-label="Grifar seleção" title="Grifar seleção"><span class="highlight-icon">A</span><span>Grifar</span></button>
+          <span class="notes-selection-hint">Selecione um trecho escrito para grifar</span>
+        </div>
+        <div class="notes-editor-paper">
+          <div class="notes-rich-editor" contenteditable="true" role="textbox" aria-label="Conteúdo da nota" aria-multiline="true" data-placeholder="Comece a escrever…" data-notes-editor spellcheck="true">{{ editor_body|default:""|safe }}</div>
+          {{ form.body }}
+          {% for error in form.body.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+        <div class="notes-editor-footer"><span data-word-count>0 palavras</span><span>Privado · só aparece nesta conta</span></div>
+      </form>
+    {% elif active_note %}
+      <div class="notes-readonly-state"><h2>{{ active_note.title }}</h2><p>Não foi possível abrir a nota para edição.</p></div>
+    {% else %}
+      <div class="notes-welcome">
+        {% if notes %}
+          <span class="notes-welcome-icon" aria-hidden="true">▤</span><p class="eyebrow">SEU CADERNO PESSOAL</p>
+          <h2>Suas ideias, no seu espaço.</h2><p>Escolha uma nota na lista ou crie uma nova. Você pode definir um tema e grifar trechos importantes do que escreveu.</p>
+          <a class="button" href="{% url 'note_new' %}">Criar uma nota <span aria-hidden="true">＋</span></a>
+        {% else %}
+          <span class="notes-welcome-icon" aria-hidden="true">✎</span><p class="eyebrow">SEU CADERNO PESSOAL</p>
+          <h2>Guarde suas ideias aqui.</h2><p>Crie notas privadas para organizar repertórios, planos de redação, referências de estudo ou qualquer pensamento que queira guardar.</p>
+          <a class="button" href="{% url 'note_new' %}">Criar primeira nota <span aria-hidden="true">＋</span></a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+<script src="{% static 'academy/js/notes.js' %}" defer></script>
+{% endblock %}

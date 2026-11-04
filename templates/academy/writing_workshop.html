@@ -1,0 +1,79 @@
+{% extends 'academy/base.html' %}
+{% block title %}Oficina de redação — RedaWay Academy{% endblock %}
+{% block content %}
+<section class="content-page wrap workshop-page">
+  <p class="eyebrow">DICAS, EXEMPLOS E PLANEJAMENTO</p>
+  <h1>Oficina de <em>redação.</em></h1>
+  <p class="content-lede">Use os exemplos para entender as escolhas de escrita e monte um plano próprio antes de começar a redigir.</p>
+
+  <div class="workshop-nav" aria-label="Nesta página">
+    <a href="#dicas">Dicas essenciais</a><a href="#exemplos">Exemplos comentados</a><a href="#planejador">Planejador</a>
+  </div>
+
+  <section id="dicas" class="workshop-section">
+    <div class="section-heading"><div><p class="eyebrow">UM PROCESSO EM ETAPAS</p><h2>Seis decisões antes <em>do ponto final.</em></h2></div></div>
+    <div class="tip-grid">
+      <article class="tip-card"><span>01</span><h3>Entenda o recorte</h3><p>Reescreva a proposta com suas palavras. Confira quem ou o que está em foco e qual aspecto precisa ser discutido.</p></article>
+      <article class="tip-card"><span>02</span><h3>Defenda uma tese</h3><p>Responda ao tema com um ponto de vista. Uma frase que apenas repete o assunto ainda não orienta a argumentação.</p></article>
+      <article class="tip-card"><span>03</span><h3>Escolha razões diferentes</h3><p>Planeje argumentos que sustentem a mesma tese por caminhos distintos. Explique o mecanismo por trás de cada problema.</p></article>
+      <article class="tip-card"><span>04</span><h3>Use repertório com função</h3><p>Apresente a referência, explique a ideia relevante e conecte-a ao recorte. Não dependa de citações decoradas.</p></article>
+      <article class="tip-card"><span>05</span><h3>Faça as ideias avançarem</h3><p>Construa cada parágrafo com uma ideia central, explicação e evidência pertinente. Use conectivos de acordo com a relação lógica.</p></article>
+      <article class="tip-card"><span>06</span><h3>Responda ao problema</h3><p>Na intervenção, indique uma ação possível, quem pode realizá-la, como e com que objetivo. Mantenha a proposta ligada ao texto e aos direitos humanos.</p></article>
+    </div>
+  </section>
+
+  <section id="exemplos" class="workshop-section">
+    <div class="section-heading"><div><p class="eyebrow">EXEMPLO AUTORAL DA REDAWAY</p><h2>Do tema ao <em>plano.</em></h2></div></div>
+    <p class="sample-theme"><strong>Tema de treino:</strong> barreiras de acesso à leitura e a espaços culturais. <span>Proposta autoral, não oficial nem previsão do Enem.</span></p>
+    <div class="example-grid">
+      <article class="example-card">
+        <span class="tag tag-subtle">Tese</span><h3>Do assunto à posição</h3>
+        <p class="example-weak"><strong>Vago:</strong> “A leitura é muito importante para a sociedade.”</p>
+        <p><strong>Mais delimitado:</strong> “A distribuição desigual de espaços de leitura e a falta de mediação dificultam o acesso contínuo de estudantes a livros e atividades culturais.”</p>
+        <p class="example-note">A segunda frase apresenta obstáculos específicos que podem ser explicados e relacionados ao tema.</p>
+      </article>
+      <article class="example-card">
+        <span class="tag tag-subtle">Desenvolvimento</span><h3>Explicar o argumento</h3>
+        <p>“Quando bibliotecas ficam distantes e têm horários incompatíveis com a rotina escolar, parte dos estudantes encontra uma barreira prática para frequentá-las. Ampliar horários e ações de mediação em espaços comunitários pode aproximar livros de quem tem menos opções de acesso.”</p>
+        <p class="example-note">O exemplo encadeia uma condição, seu efeito e uma possibilidade de enfrentamento. Em uma redação, apoie afirmações factuais com fontes verificadas.</p>
+      </article>
+      <article class="example-card">
+        <span class="tag tag-subtle">Intervenção</span><h3>Propor uma resposta</h3>
+        <p>“As secretarias municipais de educação podem ampliar os horários das bibliotecas escolares e organizar rodas de leitura com mediadores, para facilitar o acesso de estudantes que vivem longe dos equipamentos culturais.”</p>
+        <p class="example-note">A proposta nomeia agentes, ação, modo de execução e finalidade, em resposta às barreiras apresentadas.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="planejador" class="workshop-section planner-section">
+    <div class="section-heading"><div><p class="eyebrow">FERRAMENTA DE ESTUDO</p><h2>Monte seu <em>rascunho de ideias.</em></h2></div></div>
+    <p class="planner-intro">Preencha o que já sabe. O planejador organiza suas anotações em um roteiro; ele não escreve nem corrige a redação por você.</p>
+    <form id="essay-planner" class="planner-form" autocomplete="off">
+      <label>Tema ou recorte<input data-field="theme" type="text" placeholder="Ex.: acesso à leitura em comunidades" maxlength="240"></label>
+      <label>Sua tese<textarea data-field="thesis" rows="2" placeholder="Qual posição você quer defender?" maxlength="600"></textarea></label>
+      <div class="planner-fields">
+        <label>Argumento 1<textarea data-field="argument_one" rows="3" placeholder="Primeira razão e como ela funciona" maxlength="600"></textarea></label>
+        <label>Argumento 2<textarea data-field="argument_two" rows="3" placeholder="Outra razão que sustenta a tese" maxlength="600"></textarea></label>
+      </div>
+      <label>Referência ou evidência que você verificou<textarea data-field="repertoire" rows="2" placeholder="Que ideia, obra, lei ou dado ajuda a explicar o tema?" maxlength="600"></textarea></label>
+      <div class="planner-fields">
+        <label>Quem pode agir?<input data-field="agent" type="text" placeholder="Agente com responsabilidade sobre o problema" maxlength="240"></label>
+        <label>Que ação e como realizá-la?<textarea data-field="intervention" rows="2" placeholder="Descreva uma medida viável e seu modo de execução" maxlength="600"></textarea></label>
+      </div>
+      <label>Que resultado se espera?<input data-field="goal" type="text" placeholder="Finalidade relacionada ao diagnóstico" maxlength="300"></label>
+      <div class="planner-actions"><button class="button" id="planner-submit" type="button">Organizar meu plano <span aria-hidden="true">→</span></button><button class="text-button" id="planner-reset" type="button">Limpar campos</button></div>
+    </form>
+    <section class="planner-output" aria-labelledby="planner-output-title" aria-live="polite">
+      <p class="eyebrow">SEU ROTEIRO</p><h3 id="planner-output-title">As anotações vão aparecer aqui.</h3>
+      <div id="planner-preview"><p>Comece pelo tema e pela tese. O roteiro é montado nesta página e não é enviado ao servidor nem salvo na conta.</p></div>
+      <button class="text-button" id="planner-print" type="button" disabled>Imprimir ou salvar como PDF</button>
+    </section>
+    <aside class="planner-note"><strong>Antes de redigir:</strong> confirme se cada argumento sustenta a tese, verifique as fontes e adapte a proposta ao tema. Use suas próprias palavras e respeite os direitos humanos.</aside>
+  </section>
+
+  <nav class="workshop-next" aria-label="Continue estudando">
+    <a class="path-card" href="{% url 'repertoires' %}"><span class="path-index">01</span><span class="path-card-copy"><strong>Biblioteca de repertórios</strong><span>Autores, obras, leis e conceitos com contexto e aplicações.</span></span><span class="path-card-arrow" aria-hidden="true">↗</span></a>
+    <a class="path-card" href="{% url 'essay_examples' %}"><span class="path-index">02</span><span class="path-card-copy"><strong>Análises de redações nota 1000</strong><span>Estude decisões de escrita em textos de participantes.</span></span><span class="path-card-arrow" aria-hidden="true">↗</span></a>
+  </nav>
+</section>
+{% endblock %}

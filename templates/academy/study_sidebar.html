@@ -1,0 +1,20 @@
+<aside class="app-sidebar" aria-label="Navegação do espaço de estudo">
+  <button class="sidebar-collapse" type="button" aria-label="Recolher navegação" aria-pressed="false" title="Recolher navegação">‹</button>
+  <div class="sidebar-label">ESPAÇO DE ESTUDO</div>
+  <a class="side-link{% if request.resolver_match.url_name == 'dashboard' %} is-current{% endif %}" href="{% url 'dashboard' %}"{% if request.resolver_match.url_name == 'dashboard' %} aria-current="page"{% endif %}><span aria-hidden="true">⌂</span> Início</a>
+  <a class="side-link{% if request.resolver_match.url_name == 'paths' or request.resolver_match.url_name == 'path_detail' or request.resolver_match.url_name == 'lesson' %} is-current{% endif %}" href="{% url 'paths' %}"{% if request.resolver_match.url_name == 'paths' or request.resolver_match.url_name == 'path_detail' or request.resolver_match.url_name == 'lesson' %} aria-current="page"{% endif %}><span aria-hidden="true">↗</span> Trilhas</a>
+  <a class="side-link{% if request.resolver_match.url_name == 'writing_workshop' %} is-current{% endif %}" href="{% url 'writing_workshop' %}"{% if request.resolver_match.url_name == 'writing_workshop' %} aria-current="page"{% endif %}><span aria-hidden="true">✎</span> Oficina</a>
+  <a class="side-link{% if request.resolver_match.url_name == 'repertoires' or request.resolver_match.url_name == 'repertoire_detail' %} is-current{% endif %}" href="{% url 'repertoires' %}"{% if request.resolver_match.url_name == 'repertoires' or request.resolver_match.url_name == 'repertoire_detail' %} aria-current="page"{% endif %}><span aria-hidden="true">▤</span> Repertórios</a>
+  <a class="side-link{% if request.resolver_match.url_name == 'themes' %} is-current{% endif %}" href="{% url 'themes' %}"{% if request.resolver_match.url_name == 'themes' %} aria-current="page"{% endif %}><span aria-hidden="true">◉</span> Temas</a>
+  <a class="side-link{% if request.resolver_match.url_name == 'essay_examples' or request.resolver_match.url_name == 'essay_example_detail' %} is-current{% endif %}" href="{% url 'essay_examples' %}"{% if request.resolver_match.url_name == 'essay_examples' or request.resolver_match.url_name == 'essay_example_detail' %} aria-current="page"{% endif %}><span aria-hidden="true">✎</span> Redações exemplares</a>
+  <a class="side-link{% if request.resolver_match.url_name == 'official_materials' %} is-current{% endif %}" href="{% url 'official_materials' %}"{% if request.resolver_match.url_name == 'official_materials' %} aria-current="page"{% endif %}><span aria-hidden="true">⌑</span> Materiais oficiais</a>
+  <div class="sidebar-bottom">
+    <a class="side-link{% if request.resolver_match.url_name == 'profile' %} is-current{% endif %}" href="{% url 'profile' %}"{% if request.resolver_match.url_name == 'profile' %} aria-current="page"{% endif %}><span aria-hidden="true">◉</span> Perfil</a>
+    <a class="side-link{% if request.resolver_match.url_name == 'password_change' %} is-current{% endif %}" href="{% url 'password_change' %}"{% if request.resolver_match.url_name == 'password_change' %} aria-current="page"{% endif %}><span aria-hidden="true">⚙</span> Configurações</a>
+    <form method="post" action="{% url 'logout' %}" class="sidebar-logout-form">{% csrf_token %}<button class="side-link sidebar-logout" type="submit"><span aria-hidden="true">↪</span> Sair da conta</button></form>
+    <div class="student-chip">
+      {% if user.photo %}<img class="student-avatar student-avatar-photo" src="{% url 'profile_photo' %}" alt="">{% else %}<span class="student-avatar">{{ user.first_name|first|upper }}</span>{% endif %}
+      <span>{{ user.first_name }}<small>Minha conta</small></span>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,27 @@
+{% extends 'academy/base.html' %}
+{% block title %}Redações exemplares — RedaWay Academy{% endblock %}
+{% block content %}
+<section class="content-page wrap">
+  <p class="eyebrow">LEITURA E ANÁLISE</p>
+  <h1>Redações <em>exemplares.</em></h1>
+  <p class="content-lede">Cada redação tem sua página, com a fonte integral identificada e uma análise pedagógica própria em seção separada.</p>
+  {% regroup examples by edition_year as year_groups %}
+  {% for group in year_groups %}
+    <h2 class="essay-year-heading">Enem {{ group.grouper|default:"2025" }}</h2>
+    <div class="library-grid">
+      {% for example in group.list %}
+      <article class="library-card">
+        <span class="tag">Redação nota 1000 · ENEM {{ example.edition_year|default:"2025" }}</span>
+        <h2>{{ example.title }}</h2>
+        {% if example.theme %}<p>{{ example.theme.title }}</p>{% endif %}
+        <p>{{ example.attribution }}</p>
+        {% if example.text_source %}<div class="source-list"><a href="{{ example.text_source.url }}" target="_blank" rel="noopener noreferrer">Fonte integral: {{ example.text_source.institution }} ↗</a></div>{% endif %}
+        <a class="button button-small" href="{% url 'essay_example_detail' example.slug %}">Ler redação e análise <span aria-hidden="true">→</span></a>
+      </article>
+      {% endfor %}
+    </div>
+  {% empty %}
+    <div class="coming-soon"><strong>A biblioteca de análises está sendo preparada.</strong></div>
+  {% endfor %}
+</section>
+{% endblock %}

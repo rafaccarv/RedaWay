@@ -1,0 +1,39 @@
+{% extends 'academy/base.html' %}
+{% block title %}{{ example.title }} — RedaWay Academy{% endblock %}
+{% block content %}
+<article class="essay-detail wrap">
+  <nav class="breadcrumb" aria-label="Caminho da página"><a href="{% url 'essay_examples' %}">Redações exemplares</a><span aria-hidden="true">›</span><span>{{ example.title }}</span></nav>
+  <header class="essay-heading">
+    <p class="eyebrow">REDAÇÃO NOTA 1000 · ENEM {{ example.edition_year|default:"2025" }}</p>
+    <h1>{{ example.title }}</h1>
+    {% if example.theme %}<p class="essay-theme">Tema: {{ example.theme.title }}</p>{% endif %}
+    <p class="essay-byline">Autoria/identificação: {{ example.attribution }}</p>
+    <a class="text-link" href="#analise-pedagogica">Pular para a análise pedagógica ↓</a>
+  </header>
+  <section class="essay-text-panel" aria-labelledby="texto-redacao">
+    <div class="essay-section-heading"><div><p class="eyebrow">TEXTO INTEGRAL</p><h2 id="texto-redacao">A redação</h2></div>
+      {% if example.text_source.url %}<a class="text-link" href="{{ example.text_source.url }}" target="_blank" rel="noopener noreferrer">Abrir fonte original ↗</a>{% endif %}
+    </div>
+    {% if example.full_text %}
+      <div class="essay-full-text">{{ example.full_text|linebreaks }}</div>
+    {% elif example.text_source_page and ".pdf" in example.text_source.url %}
+      <p class="source-embed-note">O documento original está aberto na página indicada. Use os controles do leitor para consultar as redações e os comentários da edição.</p>
+      <iframe class="essay-source-frame" src="{{ example.text_source.url }}#page={{ example.text_source_page }}&view=FitH" title="Cartilha original do Enem {{ example.edition_year }} na página da redação" loading="lazy"></iframe>
+    {% else %}
+      <p class="source-embed-note">A fonte reúne os textos integrais. Abra a publicação original para ler a redação completa.</p>
+      {% if example.text_source.url %}<a class="button" href="{{ example.text_source.url }}" target="_blank" rel="noopener noreferrer">Abrir texto integral na fonte ↗</a>{% endif %}
+    {% endif %}
+    <p class="essay-source-note">{{ example.permission_note }}</p>
+  </section>
+  <section class="essay-analysis-panel" id="analise-pedagogica" aria-labelledby="titulo-analise">
+    <p class="eyebrow">LEITURA COMENTADA</p><h2 id="titulo-analise">Análise pedagógica</h2>
+    <p class="analysis-intro">Comentário didático autoral para orientar o estudo. Não é uma correção oficial nem atribui nota por competência.</p>
+    {% if example.analysis %}<div class="essay-analysis-text">{{ example.analysis|linebreaks }}</div>{% endif %}
+    <div class="source-list"><strong>Fontes e referências</strong>
+      {% if example.source.url %}<a href="{{ example.source.url }}" target="_blank" rel="noopener noreferrer">Fonte e contexto: {{ example.source.institution }} — {{ example.source.title }} ↗</a>{% else %}<span>{{ example.source.institution }} — {{ example.source.title }}</span>{% endif %}
+      {% if cartilha.url and example.edition_year == 2025 %}<a href="{{ cartilha.url }}" target="_blank" rel="noopener noreferrer">Critérios do Enem: Cartilha do Participante 2026 ↗</a>{% endif %}
+    </div>
+  </section>
+  <a class="text-link essay-back-link" href="{% url 'essay_examples' %}">← Voltar às redações exemplares</a>
+</article>
+{% endblock %}
