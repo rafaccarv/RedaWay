@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: redaway-academy
+    name: redaway
     runtime: python
     plan: free
     buildCommand: pip install -r requirements-postgres.txt && python manage.py collectstatic --noinput
