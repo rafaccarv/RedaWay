@@ -43,6 +43,14 @@ jobs:
       - name: Apply migrations
         run: python manage.py migrate --noinput
 
+      - name: Create admin user
+        env:
+          DJANGO_SUPERUSER_USERNAME: ${{ secrets.REDAWAY_ADMIN_USERNAME }}
+          DJANGO_SUPERUSER_EMAIL: ${{ secrets.REDAWAY_ADMIN_EMAIL }}
+          DJANGO_SUPERUSER_PASSWORD: ${{ secrets.REDAWAY_ADMIN_PASSWORD }}
+        run: python manage.py createsuperuser --noinput
+
+
       - name: Seed initial content
         run: |
           python manage.py setup_roles
