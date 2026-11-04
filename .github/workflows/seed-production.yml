@@ -1,0 +1,50 @@
+
+name: Seed production database
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: redaway-production-seed
+  cancel-in-progress: false
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      REDAWAY_SECRET_KEY: ${{ secrets.REDAWAY_SECRET_KEY }}
+      REDAWAY_DEBUG: "0"
+
+    steps:
+      - name: Check required secrets
+        run: |
+          test -n "$DATABASE_URL" || (echo "Falta o secret DATABASE_URL" && exit 1)
+          test -n "$REDAWAY_SECRET_KEY" || (echo "Falta o secret REDAWAY_SECRET_KEY" && exit 1)
+          echo "Os dois secrets foram encontrados."
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-postgres.txt
+
+      - name: Apply migrations
+        run: python manage.py migrate --noinput
+
+      - name: Seed initial content
+        run: |
+          python manage.py setup_roles
+          python manage.py seed_curriculum
+          python manage.py seed_historical_essays
